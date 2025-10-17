@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proactive Triage Pilot: Presentation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .section-card {
+            @apply bg-white p-6 md:p-8 rounded-xl shadow-md transition-shadow duration-300 hover:shadow-lg;
+        }
+        .metric-card {
+            @apply bg-slate-50 border border-slate-200 p-6 rounded-lg text-center flex flex-col justify-center;
+        }
+        .icon {
+            @apply w-12 h-12 mx-auto mb-4 text-indigo-500;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <div class="container mx-auto px-4 py-8 md:py-12">
+
+        <!-- Header Section -->
+        <header class="text-center mb-12">
+            <h1 class="text-3xl md:text-5xl font-bold text-indigo-700 leading-tight">Proactive Triage Pilot</h1>
+            <p class="text-xl md:text-2xl text-slate-600 mt-2">Converting Student Debt into Retention</p>
+            <div class="mt-6 text-slate-500">
+                <p><strong>Presented by:</strong> [Your Name], Senior Student Advisor</p>
+                <p><strong>Date:</strong> 17 October 2025</p>
+            </div>
+        </header>
+
+        <div class="space-y-10">
+
+            <!-- The Challenge -->
+            <section class="section-card">
+                <h2 class="text-2xl font-bold mb-4 text-center text-indigo-600">The Challenge: The BFS Cohort</h2>
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <p class="mb-4">A significant cohort of students with outstanding fees (BFS) are unable to re-enrol each year. Our traditional support model has been reactive, relying on students booking time-intensive, one-on-one appointments.</p>
+                        <ul class="list-disc list-inside space-y-2 text-red-700 bg-red-50 p-4 rounded-lg">
+                            <li><strong>Creates a bottleneck</strong> for senior advisor time.</li>
+                            <li><strong>Risks losing at-risk students</strong> who disengage before seeking help.</li>
+                        </ul>
+                        <p class="mt-4 font-semibold"><strong>The Goal:</strong> To develop a proactive, scalable system to identify and support these students more efficiently.</p>
+                    </div>
+                    <div class="flex justify-center">
+                        <svg class="w-32 h-32 text-red-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 0 0 5.636 5.636m12.728 12.728A9 9 0 0 1 5.636 5.636m12.728 12.728L5.636 5.636" />
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+                        </svg>
+                    </div>
+                </div>
+            </section>
+
+            <!-- The Solution -->
+            <section class="section-card">
+                <h2 class="text-2xl font-bold mb-4 text-center text-indigo-600">The Solution: An Automated Triage Tool</h2>
+                <p class="text-center max-w-3xl mx-auto mb-6">To solve this, I developed an automated triage tool, leveraging modern technologies to shift our approach from reactive to proactive. As part of my role in finding innovative solutions, I used AI as a co-development partner to rapidly build and refine the automation.</p>
+                <div class="bg-slate-100 p-6 rounded-lg">
+                    <h3 class="font-semibold text-lg text-center mb-4">Technology Stack</h3>
+                    <div class="flex justify-center items-center space-x-4 md:space-x-8 text-center text-sm text-slate-700">
+                        <div class="w-1/4">
+                            <div class="bg-white p-3 rounded-full shadow-md w-16 h-16 mx-auto flex items-center justify-center">
+                                <svg class="w-8 h-8 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 5.25 6h.008a2.25 2.25 0 0 1 2.242 2.15 2.25 2.25 0 0 0 2.25 2.25h3.75a2.25 2.25 0 0 0 2.25-2.25 2.25 2.25 0 0 1 2.25-2.25h.008a2.25 2.25 0 0 1 2.25 2.25v8.25a2.25 2.25 0 0 1-2.25 2.25h-5.25a2.25 2.25 0 0 1-2.25-2.25v-2.1a2.25 2.25 0 0 0-2.25-2.25H5.25a2.25 2.25 0 0 1-2.25-2.25V6.108c0-1.135.845-2.098 1.976-2.192a48.424 48.424 0 0 0 1.123-.08Z" /></svg>
+                            </div>
+                            <p class="mt-2 font-medium">MS Forms</p>
+                        </div>
+                         <div class="w-1/4">
+                            <div class="bg-white p-3 rounded-full shadow-md w-16 h-16 mx-auto flex items-center justify-center">
+                                <svg class="w-8 h-8 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5V6.75a4.5 4.5 0 1 1 9 0v3.75M3.75 21.75h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H3.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" /></svg>
+                            </div>
+                            <p class="mt-2 font-medium">Power Automate</p>
+                        </div>
+                         <div class="w-1/4">
+                            <div class="bg-white p-3 rounded-full shadow-md w-16 h-16 mx-auto flex items-center justify-center">
+                                <svg class="w-8 h-8 text-green-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75h7.5M8.25 12h7.5m-7.5 5.25h7.5m3-15-3 3m0 0-3-3m3 3V15" /></svg>
+                            </div>
+                            <p class="mt-2 font-medium">Excel + VBA</p>
+                        </div>
+                         <div class="w-1/4">
+                            <div class="bg-white p-3 rounded-full shadow-md w-16 h-16 mx-auto flex items-center justify-center">
+                                <svg class="w-8 h-8 text-purple-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456Z" /></svg>
+                            </div>
+                            <p class="mt-2 font-medium">AI Assistance</p>
+                        </div>
+                    </div>
+                </div>
+                 <div class="mt-6 border-t pt-6">
+                    <h3 class="font-semibold text-lg text-center mb-2">Privacy & Compliance</h3>
+                    <p class="text-center text-sm max-w-2xl mx-auto">No student data was processed by generative AI. The AI was only used to generate the scoring code template, ensuring full compliance with data protection requirements.</p>
+                </div>
+            </section>
+
+            <!-- Mapping the Process -->
+            <section class="section-card">
+                 <h2 class="text-2xl font-bold mb-6 text-center text-indigo-600">Mapping the Process: How It Works</h2>
+                 <div class="relative flex flex-col items-center md:flex-row md:justify-between space-y-4 md:space-y-0 md:space-x-4">
+                    <!-- Dashed line for desktop -->
+                    <div class="hidden md:block absolute top-1/2 left-0 w-full h-0.5 border-t-2 border-dashed border-slate-300 -translate-y-1/2"></div>
+                    
+                    <div class="relative z-10 text-center w-full md:w-1/5">
+                        <div class="mx-auto w-16 h-16 rounded-full bg-indigo-500 text-white flex items-center justify-center font-bold text-xl mb-2 border-4 border-white shadow-md">1</div>
+                        <h4 class="font-semibold">Engage</h4>
+                        <p class="text-sm">Send link to at-risk students.</p>
+                    </div>
+                    <div class="relative z-10 text-center w-full md:w-1/5">
+                        <div class="mx-auto w-16 h-16 rounded-full bg-indigo-500 text-white flex items-center justify-center font-bold text-xl mb-2 border-4 border-white shadow-md">2</div>
+                        <h4 class="font-semibold">Automate</h4>
+                        <p class="text-sm">Responses populate Excel.</p>
+                    </div>
+                    <div class="relative z-10 text-center w-full md:w-1/5">
+                        <div class="mx-auto w-16 h-16 rounded-full bg-indigo-500 text-white flex items-center justify-center font-bold text-xl mb-2 border-4 border-white shadow-md">3</div>
+                        <h4 class="font-semibold">Analyse</h4>
+                        <p class="text-sm">Advisor clicks 'Refresh'.</p>
+                    </div>
+                    <div class="relative z-10 text-center w-full md:w-1/5">
+                        <div class="mx-auto w-16 h-16 rounded-full bg-indigo-500 text-white flex items-center justify-center font-bold text-xl mb-2 border-4 border-white shadow-md">4</div>
+                        <h4 class="font-semibold">Prioritise</h4>
+                        <p class="text-sm">Tool scores and ranks students.</p>
+                    </div>
+                    <div class="relative z-10 text-center w-full md:w-1/5">
+                        <div class="mx-auto w-16 h-16 rounded-full bg-indigo-500 text-white flex items-center justify-center font-bold text-xl mb-2 border-4 border-white shadow-md">5</div>
+                        <h4 class="font-semibold">Action</h4>
+                        <p class="text-sm">Generate sorted callback lists.</p>
+                    </div>
+                 </div>
+            </section>
+
+            <!-- Pilot Performance -->
+            <section class="section-card">
+                <h2 class="text-2xl font-bold mb-6 text-center text-indigo-600">The Triage Funnel: Pilot Performance</h2>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="metric-card">
+                        <p class="text-4xl font-bold text-indigo-600">~60</p>
+                        <p class="font-semibold mt-2">Students Contacted</p>
+                        <p class="text-sm text-slate-500 mt-1">Initial outreach to the at-risk BFS cohort.</p>
+                    </div>
+                    <div class="metric-card">
+                        <p class="text-4xl font-bold text-indigo-600">41</p>
+                        <p class="font-semibold mt-2">Forms Submitted</p>
+                         <p class="text-sm text-slate-500 mt-1">A ~68% response rate demonstrates strong student engagement.</p>
+                    </div>
+                    <div class="metric-card bg-green-50 border-green-200">
+                        <p class="text-4xl font-bold text-green-700">15.75</p>
+                        <p class="font-semibold mt-2 text-green-800">Hours Saved</p>
+                        <p class="text-xs text-slate-500 mt-1">Filtered out 21 non-viable cases. <br> (21 cases x 45 mins)</p>
+                    </div>
+                    <div class="metric-card">
+                        <p class="text-4xl font-bold text-indigo-600">6</p>
+                        <p class="font-semibold mt-2">Viable CPR Cases</p>
+                        <p class="text-sm text-slate-500 mt-1">Filtered cohort down to a manageable group for intervention.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Triage Model Accuracy -->
+            <section class="section-card">
+                <h2 class="text-2xl font-bold mb-6 text-center text-indigo-600">Triage Model Accuracy: High Precision & Key Learnings</h2>
+                 <div class="grid md:grid-cols-3 gap-6">
+                    <div class="metric-card">
+                        <h3 class="font-bold text-lg text-indigo-700 mb-2">High-Precision Prioritisation</h3>
+                        <p><strong>4 out of 4 students (100%)</strong> who scored highly and were contacted had viable CPR cases. The system correctly prioritised every high-scoring respondent.</p>
+                    </div>
+                    <div class="metric-card">
+                         <h3 class="font-bold text-lg text-indigo-700 mb-2">System Resilience & Data Quality</h3>
+                        <p><strong>2 additional students</strong> with viable cases were identified despite scoring lower, due to incorrect or incomplete answers on the form.</p>
+                    </div>
+                    <div class="metric-card bg-indigo-50 border-indigo-200">
+                         <h3 class="font-bold text-lg text-indigo-700 mb-2">Key Finding</h3>
+                        <p>The triage logic is sound. The 2 outliers represent a <strong>data quality issue, not a system flaw</strong>, proving the tool works as designed.</p>
+                    </div>
+                 </div>
+            </section>
+
+             <!-- Pilot Outcomes -->
+            <section class="section-card">
+                <h2 class="text-2xl font-bold mb-6 text-center text-indigo-600">Pilot Outcomes: Protecting Revenue & Enabling Retention</h2>
+                 <div class="bg-indigo-100 border-l-4 border-indigo-500 p-6 rounded-r-lg text-center">
+                    <p class="text-slate-600 text-lg">Potential Revenue at Risk</p>
+                    <p class="text-4xl md:text-5xl font-bold text-indigo-700 my-2">~£48,000</p>
+                    <p class="text-slate-600">Represents outstanding fees for the 6 identified CPR cases that could be retained.</p>
+                 </div>
+                 <div class="mt-6 grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="font-semibold text-lg mb-2">The Key Difference</h3>
+                        <p>This tool doesn't create new outcomes—it identifies the right students faster and prevents wasted time on unviable cases.</p>
+                    </div>
+                     <div>
+                        <h3 class="font-semibold text-lg mb-2">Strategic Value</h3>
+                        <p>By filtering 41 responses down to 6 high-priority cases, we directed our most valuable resource—senior advisor time—exactly where it could protect institutional revenue.</p>
+                    </div>
+                 </div>
+            </section>
+
+            <!-- Strategic Insights -->
+            <section class="section-card">
+                <h2 class="text-2xl font-bold mb-6 text-center text-indigo-600">Strategic Insights: What We Learned</h2>
+                <div class="space-y-4">
+                    <div class="p-4 bg-slate-100 rounded-lg">
+                        <h3 class="font-bold">Insight 1: Proactive Intervention is Key</h3>
+                        <p>This pilot targeted ~60 students in Bad Financial Standing (BFS) at the end of the academic year due to outstanding fees. Proving the model's success with this specific cohort validates its potential as a proactive tool to be deployed earlier, catching students during the academic year as soon as funding issues arise.</p>
+                    </div>
+                    <div class="p-4 bg-slate-100 rounded-lg">
+                        <h3 class="font-bold">Insight 2: The Triage Model is a Definitive Success</h3>
+                        <p>The model's ability to correctly filter out 21 non-viable cases is a major efficiency win. It validates the tool as a reliable method for focusing advisor resources.</p>
+                    </div>
+                    <div class="p-4 bg-slate-100 rounded-lg">
+                        <h3 class="font-bold">Insight 3: Form Design is Critical</h3>
+                        <p>The 2 outliers caused by incorrect answers highlight the need to refine future forms with clearer questions and validation to improve data quality.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recommendations -->
+            <section class="section-card bg-indigo-600 text-white">
+                <h2 class="text-3xl font-bold mb-2 text-center">Our Recommendations</h2>
+                <p class="text-center text-indigo-200 mb-8 max-w-3xl mx-auto">Based on the pilot's success, we propose a two-pronged approach: formalise the process immediately and invest in the right tools to scale our success.</p>
+
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Recommendation 1 -->
+                    <div class="bg-white/10 p-6 rounded-lg">
+                        <h3 class="font-bold text-xl mb-3">1. Adopt as Standard Procedure</h3>
+                        <p class="text-indigo-200 mb-4">This proactive triage model should be adopted as our standard operating procedure for managing at-risk student cohorts, effective immediately.</p>
+                        <div class="space-y-3">
+                           <div class="flex items-start">
+                                <svg class="w-5 h-5 mr-3 mt-1 text-green-300 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" /></svg>
+                                <div>
+                                    <h4 class="font-semibold">Maximise Efficiency</h4>
+                                    <p class="text-sm text-indigo-200">Direct advisor time to high-value cases.</p>
+                                </div>
+                           </div>
+                           <div class="flex items-start">
+                                <svg class="w-5 h-5 mr-3 mt-1 text-green-300 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" /></svg>
+                                <div>
+                                    <h4 class="font-semibold">Enable Data-Driven Decisions</h4>
+                                    <p class="text-sm text-indigo-200">Base interventions on clear evidence.</p>
+                                </div>
+                           </div>
+                            <div class="flex items-start">
+                                <svg class="w-5 h-5 mr-3 mt-1 text-green-300 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" /></svg>
+                                <div>
+                                    <h4 class="font-semibold">Improve Student Retention</h4>
+                                    <p class="text-sm text-indigo-200">Create a clear pathway to support.</p>
+                                </div>
+                           </div>
+                        </div>
+                    </div>
+
+                    <!-- Recommendation 2 -->
+                    <div class="bg-white/10 p-6 rounded-lg">
+                        <h3 class="font-bold text-xl mb-3">2. Invest in a Higher-Specification Laptop to Continue Innovation</h3>
+                        <p class="text-indigo-200 mb-4">To build on this success and continue developing data-driven solutions, the immediate bottleneck must be addressed. A higher-specification laptop is essential to carry out this work efficiently.</p>
+                        <ul class="list-disc list-inside space-y-2 text-indigo-200">
+                           <li><strong>Unlock Further Efficiencies:</strong> Handle larger datasets and develop more complex automations without hardware limitations.</li>
+                           <li><strong>Enable Future Growth:</strong> The right machine is the first step toward building more robust solutions, including future database and system integrations.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            
+             <!-- Q&A Section -->
+            <section class="section-card">
+                <h2 class="text-2xl font-bold mb-6 text-center text-indigo-600">Q&A / Next Steps</h2>
+                <div class="flex flex-col md:flex-row items-center justify-center gap-8">
+                     <div class="text-center">
+                         <svg class="w-24 h-24 text-indigo-400 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                           <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z" />
+                         </svg>
+                         <h3 class="mt-4 text-xl font-semibold">Questions & Discussion</h3>
+                     </div>
+                     <div class="bg-slate-100 p-6 rounded-lg w-full md:w-1/2">
+                         <h4 class="font-bold text-lg mb-3">Pilot Summary</h4>
+                         <ul class="space-y-2">
+                             <li><strong>Response Rate:</strong> <span class="font-semibold float-right">~68% (41/60)</span></li>
+                             <li><strong>Advisor Hours Saved:</strong> <span class="font-semibold float-right">15.75</span></li>
+                             <li><strong>Viable CPR Cases Found:</strong> <span class="font-semibold float-right">6 students</span></li>
+                             <li><strong>Potential Revenue at Risk:</strong> <span class="font-semibold float-right">~£48,000</span></li>
+                         </ul>
+                     </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Footer -->
+        <footer class="text-center mt-12 text-sm text-slate-500">
+            <p>&copy; 2025 [Your Name/Department]. All rights reserved.</p>
+        </footer>
+
+    </div>
+
+</body>
+</html>
+
+
