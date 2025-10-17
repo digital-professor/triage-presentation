@@ -1,395 +1,771 @@
-import React, { useState } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proactive Triage Pilot Presentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .slide-container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+        }
+        
+        .slide-header {
+            background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
+            color: white;
+            padding: 40px;
+        }
+        
+        .slide-header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .slide-header p {
+            color: #bfdbfe;
+            font-size: 1.125rem;
+        }
+        
+        .slide-content {
+            padding: 60px;
+            min-height: 600px;
+            animation: fadeIn 0.3s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .navigation {
+            background: #f9fafb;
+            padding: 24px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        .nav-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .nav-button:hover:not(:disabled) {
+            background: #1d4ed8;
+        }
+        
+        .nav-button:disabled {
+            background: #d1d5db;
+            cursor: not-allowed;
+        }
+        
+        .indicators {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #d1d5db;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .indicator:hover {
+            background: #9ca3af;
+        }
+        
+        .indicator.active {
+            background: #2563eb;
+            width: 32px;
+        }
+        
+        .slide-counter {
+            background: #f3f4f6;
+            padding: 12px 40px;
+            text-align: center;
+            color: #6b7280;
+            font-size: 0.875rem;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        /* Content styles */
+        .text-center { text-align: center; }
+        .space-y-6 > * + * { margin-top: 24px; }
+        .space-y-5 > * + * { margin-top: 20px; }
+        .space-y-4 > * + * { margin-top: 16px; }
+        .space-y-3 > * + * { margin-top: 12px; }
+        .space-y-2 > * + * { margin-top: 8px; }
+        
+        .text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
+        .text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
+        .text-2xl { font-size: 1.5rem; line-height: 2rem; }
+        .text-xl { font-size: 1.25rem; line-height: 1.75rem; }
+        .text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+        
+        .font-bold { font-weight: 700; }
+        .font-semibold { font-weight: 600; }
+        
+        .text-gray-800 { color: #1f2937; }
+        .text-gray-700 { color: #374151; }
+        .text-gray-600 { color: #4b5563; }
+        
+        .mt-12 { margin-top: 48px; }
+        .mb-6 { margin-bottom: 24px; }
+        .mb-4 { margin-bottom: 16px; }
+        .mb-3 { margin-bottom: 12px; }
+        .mb-2 { margin-bottom: 8px; }
+        .mt-4 { margin-top: 16px; }
+        .mt-2 { margin-top: 8px; }
+        
+        .alert-box {
+            padding: 24px;
+            border-left: 4px solid;
+            margin: 24px 0;
+        }
+        
+        .alert-red {
+            background: #fef2f2;
+            border-color: #ef4444;
+        }
+        
+        .alert-blue {
+            background: #eff6ff;
+            border-color: #3b82f6;
+        }
+        
+        .alert-green {
+            background: #f0fdf4;
+            border-color: #22c55e;
+        }
+        
+        .alert-yellow {
+            background: #fefce8;
+            border-color: #eab308;
+        }
+        
+        .alert-indigo {
+            background: #eef2ff;
+            border-color: #6366f1;
+        }
+        
+        .alert-orange {
+            background: #fff7ed;
+            border-color: #f97316;
+        }
+        
+        .alert-purple {
+            background: #faf5ff;
+            border-color: #a855f7;
+        }
+        
+        .gradient-box {
+            padding: 32px;
+            border-radius: 8px;
+            margin: 24px 0;
+        }
+        
+        .gradient-blue-indigo {
+            background: linear-gradient(to right, #dbeafe 0%, #e0e7ff 100%);
+        }
+        
+        .gradient-purple {
+            background: linear-gradient(to right, #faf5ff 0%, #f3e8ff 100%);
+        }
+        
+        .gradient-blue {
+            background: linear-gradient(to right, #dbeafe 0%, #bfdbfe 100%);
+        }
+        
+        .gradient-green {
+            background: linear-gradient(to right, #dcfce7 0%, #bbf7d0 100%);
+        }
+        
+        .gradient-orange {
+            background: linear-gradient(to right, #ffedd5 0%, #fed7aa 100%);
+        }
+        
+        .gradient-emerald {
+            background: linear-gradient(to right, #d1fae5 0%, #a7f3d0 100%);
+        }
+        
+        .gradient-primary {
+            background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
+            color: white;
+        }
+        
+        .number-circle {
+            width: 48px;
+            height: 48px;
+            background: #3b82f6;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+        
+        .number-circle.green {
+            background: #22c55e;
+        }
+        
+        .step-container {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+        
+        .step-content {
+            flex: 1;
+        }
+        
+        .step-title {
+            font-weight: 600;
+            font-size: 1.125rem;
+            color: #1f2937;
+            margin-bottom: 4px;
+        }
+        
+        .stat-box {
+            padding: 32px;
+            border-radius: 8px;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .revenue-box {
+            text-align: center;
+        }
+        
+        .revenue-number {
+            font-size: 4rem;
+            font-weight: 700;
+            color: #15803d;
+            margin-bottom: 16px;
+        }
+        
+        .grid {
+            display: grid;
+            gap: 24px;
+        }
+        
+        .grid-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+        
+        @media (max-width: 768px) {
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .feature-box {
+            background: white;
+            padding: 24px;
+            border-radius: 8px;
+            border-left: 4px solid;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+        
+        .feature-box h4 {
+            font-weight: 600;
+            font-size: 1.125rem;
+            color: #1f2937;
+            margin-bottom: 8px;
+        }
+        
+        .icon-box {
+            padding: 24px;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid;
+        }
+        
+        .icon {
+            font-size: 2.5rem;
+            margin-bottom: 8px;
+        }
+        
+        .summary-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            text-align: left;
+        }
+        
+        ul {
+            list-style: none;
+        }
+        
+        ul li {
+            margin-bottom: 8px;
+        }
+        
+        strong {
+            font-weight: 600;
+        }
+        
+        .max-w-3xl {
+            max-width: 48rem;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .max-w-2xl {
+            max-width: 42rem;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .shadow-sm { box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); }
+        .shadow-md { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+        .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+        
+        .mb-8 { margin-bottom: 32px; }
+        .mt-8 { margin-top: 32px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="slide-container">
+            <div class="slide-header">
+                <h1 id="slide-title"></h1>
+                <p id="slide-subtitle"></p>
+            </div>
 
-const TriagePresentation = () => {
-  const [currentSlide, setCurrentSlide] = useState(0);
+            <div class="slide-content" id="slide-content"></div>
 
-  const slides = [
-    {
-      title: "Proactive Triage Pilot",
-      subtitle: "Converting Student Debt into Retention",
-      content: (
-        <div className="text-center space-y-6">
-          <h2 className="text-4xl font-bold text-gray-800">Proactive Triage Pilot: Converting Student Debt into Retention</h2>
-          <p className="text-2xl text-gray-600">Analyzing the BFS Cohort to Create a Pathway for Student Success</p>
-          <div className="mt-12 text-lg text-gray-700 space-y-2">
-            <p><strong>Presented by:</strong> [Your Name]</p>
-            <p><strong>Role:</strong> Senior Student Advisor</p>
-            <p><strong>Date:</strong> October 17, 2025</p>
-          </div>
+            <div class="navigation">
+                <button class="nav-button" onclick="prevSlide()" id="prev-btn">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                    <span>Previous</span>
+                </button>
+
+                <div class="indicators" id="indicators"></div>
+
+                <button class="nav-button" onclick="nextSlide()" id="next-btn">
+                    <span>Next</span>
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="slide-counter" id="slide-counter"></div>
         </div>
-      )
-    },
-    {
-      title: "The Challenge: The BFS Cohort",
-      subtitle: "A Growing Institutional Challenge",
-      content: (
-        <div className="space-y-6">
-          <p className="text-xl text-gray-700">A significant cohort of students with outstanding fees (BFS) are unable to re-enroll each year. Our traditional support model has been <strong>reactive</strong>, relying on students booking time-intensive, one-on-one appointments.</p>
-          
-          <div className="bg-red-50 border-l-4 border-red-500 p-6 my-6">
-            <h3 className="text-xl font-semibold text-red-800 mb-3">This creates two key problems:</h3>
-            <ul className="space-y-2 text-gray-700">
-              <li>• It creates a <strong>bottleneck</strong> for advisor time</li>
-              <li>• It risks losing at-risk students who disengage before seeking help</li>
-            </ul>
-          </div>
-
-          <div className="bg-blue-50 border-l-4 border-blue-500 p-6">
-            <p className="text-xl font-semibold text-blue-800"><strong>Our Goal:</strong> To develop a proactive, scalable system to identify and support these students more efficiently.</p>
-          </div>
-        </div>
-      )
-    },
-    {
-      title: "The Solution: An Automated Triage Tool",
-      subtitle: "Shifting from Reactive to Proactive",
-      content: (
-        <div className="space-y-6">
-          <p className="text-xl text-gray-700">To solve this, I developed an automated triage tool leveraging modern technologies including AI and workflow automation.</p>
-          
-          <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-lg my-6">
-            <h3 className="text-xl font-semibold text-indigo-800 mb-4">Technology Stack:</h3>
-            <ul className="space-y-3 text-gray-700">
-              <li>• <strong>MS Forms</strong> - Digital triage form for student data collection</li>
-              <li>• <strong>Power Automate</strong> - Automated data flow from forms to Excel</li>
-              <li>• <strong>Excel + VBA</strong> - Dynamic scoring engine with AI-assisted code generation</li>
-              <li>• <strong>AI Co-Development</strong> - Used generative AI to develop flexible scoring logic</li>
-            </ul>
-          </div>
-
-          <div className="bg-green-50 border-l-4 border-green-500 p-6">
-            <p className="text-sm text-gray-600"><strong>Privacy Note:</strong> No student data was processed by generative AI. AI was only used to generate the scoring code template, ensuring full compliance with data protection requirements.</p>
-          </div>
-
-          <p className="text-lg text-gray-700 mt-4">The tool automatically scores and prioritizes students based on their potential for a successful Compelling Personal Reasons (CPR) claim.</p>
-        </div>
-      )
-    },
-    {
-      title: "Mapping the Process: How It Works",
-      subtitle: "From Data Input to Actionable Insights",
-      content: (
-        <div className="space-y-6">
-          <p className="text-lg text-gray-700 mb-6">The process is designed to be seamless and automated, moving from initial student engagement to a clear, actionable list for advisors.</p>
-          
-          <div className="space-y-4">
-            <div className="flex items-start space-x-4">
-              <div className="flex-shrink-0 w-12 h-12 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold text-xl">1</div>
-              <div className="flex-1">
-                <h4 className="font-semibold text-lg text-gray-800">Engage</h4>
-                <p className="text-gray-600">At-risk students are sent a link to the MS Forms triage questionnaire</p>
-              </div>
-            </div>
-
-            <div className="flex items-start space-x-4">
-              <div className="flex-shrink-0 w-12 h-12 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold text-xl">2</div>
-              <div className="flex-1">
-                <h4 className="font-semibold text-lg text-gray-800">Automate</h4>
-                <p className="text-gray-600">Power Automate instantly transfers form responses to the Excel Data sheet</p>
-              </div>
-            </div>
-
-            <div className="flex items-start space-x-4">
-              <div className="flex-shrink-0 w-12 h-12 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold text-xl">3</div>
-              <div className="flex-1">
-                <h4 className="font-semibold text-lg text-gray-800">Analyze</h4>
-                <p className="text-gray-600">Advisor clicks the 'Refresh' button, triggering the VBA scoring macro</p>
-              </div>
-            </div>
-
-            <div className="flex items-start space-x-4">
-              <div className="flex-shrink-0 w-12 h-12 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold text-xl">4</div>
-              <div className="flex-1">
-                <h4 className="font-semibold text-lg text-gray-800">Prioritize</h4>
-                <p className="text-gray-600">The tool scores, ranks, and sorts all students on the Triage sheet</p>
-              </div>
-            </div>
-
-            <div className="flex items-start space-x-4">
-              <div className="flex-shrink-0 w-12 h-12 bg-green-500 text-white rounded-full flex items-center justify-center font-bold text-xl">5</div>
-              <div className="flex-1">
-                <h4 className="font-semibold text-lg text-gray-800">Action</h4>
-                <p className="text-gray-600">The tool generates clean, sorted Callback Lists based on student responses</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      )
-    },
-    {
-      title: "The Triage Funnel: Pilot Performance",
-      subtitle: "Efficiently Filtering to Find the Target Group",
-      content: (
-        <div className="space-y-6">
-          <p className="text-xl text-gray-700 mb-6">The pilot successfully engaged a large cohort and efficiently filtered it down to a manageable group of high-potential students.</p>
-
-          <div className="grid grid-cols-1 gap-6">
-            <div className="bg-gradient-to-r from-purple-50 to-purple-100 p-8 rounded-lg shadow-sm">
-              <div className="text-5xl font-bold text-purple-700 mb-2">~60</div>
-              <p className="text-lg text-gray-700"><strong>Students Contacted:</strong> Initial outreach to the BFS cohort</p>
-            </div>
-
-            <div className="bg-gradient-to-r from-blue-50 to-blue-100 p-8 rounded-lg shadow-sm">
-              <div className="text-5xl font-bold text-blue-700 mb-2">41</div>
-              <p className="text-lg text-gray-700"><strong>Forms Submitted:</strong> 68% response rate to the proactive digital form</p>
-            </div>
-
-            <div className="bg-gradient-to-r from-green-50 to-green-100 p-8 rounded-lg shadow-sm">
-              <div className="text-5xl font-bold text-green-700 mb-2">28.5</div>
-              <p className="text-lg text-gray-700"><strong>Hours Saved:</strong> Pre-emptive engagement prevented this amount of reactive appointment time</p>
-            </div>
-
-            <div className="bg-gradient-to-r from-orange-50 to-orange-100 p-8 rounded-lg shadow-sm">
-              <div className="text-5xl font-bold text-orange-700 mb-2">6</div>
-              <p className="text-lg text-gray-700"><strong>Viable CPR Cases:</strong> Successfully identified for targeted advisor intervention</p>
-            </div>
-          </div>
-        </div>
-      )
-    },
-    {
-      title: "Triage Model Accuracy: Validating the System",
-      subtitle: "A Reliable and Effective Filtering Tool",
-      content: (
-        <div className="space-y-6">
-          <p className="text-xl text-gray-700">The tool's scoring logic successfully identified students with viable CPR cases, validating the model's effectiveness.</p>
-
-          <div className="bg-green-50 border-l-4 border-green-500 p-6 my-6">
-            <h3 className="text-xl font-semibold text-green-800 mb-3">High-Priority Identification:</h3>
-            <p className="text-lg text-gray-700"><strong>4 out of 4 students (100%)</strong> who scored highly on the triage system and were contacted had viable CPR cases. The system correctly prioritized every high-scoring respondent.</p>
-          </div>
-
-          <div className="bg-blue-50 border-l-4 border-blue-500 p-6 my-6">
-            <h3 className="text-xl font-semibold text-blue-800 mb-3">System Resilience:</h3>
-            <p className="text-lg text-gray-700"><strong>2 additional students</strong> with viable CPR cases were identified despite scoring lower. Analysis showed these students had answered key questions incorrectly or incompletely, causing the lower scores.</p>
-          </div>
-
-          <div className="bg-yellow-50 border-l-4 border-yellow-500 p-6 my-6">
-            <h3 className="text-xl font-semibold text-yellow-800 mb-3">Key Finding:</h3>
-            <p className="text-lg text-gray-700">The triage logic is sound—it correctly processes the data it receives. The 2 outliers represent a <strong>data quality issue</strong>, not a system flaw.</p>
-          </div>
-
-          <div className="bg-indigo-50 border-l-4 border-indigo-500 p-6">
-            <h3 className="text-xl font-semibold text-indigo-800 mb-3">Conclusion:</h3>
-            <p className="text-lg text-gray-700">The model successfully separates viable cases from non-viable ones when data is accurate, proving the system works as designed. Future iterations can add validation logic to capture edge cases.</p>
-          </div>
-        </div>
-      )
-    },
-    {
-      title: "Pilot Outcomes: Protecting Institutional Revenue",
-      subtitle: "Efficient Resource Allocation Leads to Revenue Retention",
-      content: (
-        <div className="space-y-6">
-          <p className="text-xl text-gray-700 mb-6">The pilot successfully identified high-value cases and directed advisor resources where they would have maximum impact.</p>
-
-          <div className="bg-gradient-to-r from-green-50 to-emerald-50 p-8 rounded-lg shadow-md mb-6">
-            <div className="text-center">
-              <div className="text-6xl font-bold text-green-700 mb-4">£47,999.99</div>
-              <p className="text-2xl font-semibold text-gray-800">Potential Revenue at Risk</p>
-              <p className="text-lg text-gray-600 mt-2">Outstanding fees for 6 identified CPR cases that could be retained if claims succeed</p>
-            </div>
-          </div>
-
-          <div className="space-y-4">
-            <div className="bg-white p-6 rounded-lg shadow-sm border-l-4 border-blue-500">
-              <h4 className="font-semibold text-lg text-gray-800 mb-2">Viable CPR Cases Identified</h4>
-              <p className="text-gray-700">The triage tool identified <strong>6 students</strong> with strong CPR cases, allowing us to prioritize our intervention effectively.</p>
-            </div>
-
-            <div className="bg-white p-6 rounded-lg shadow-sm border-l-4 border-purple-500">
-              <h4 className="font-semibold text-lg text-gray-800 mb-2">The Key Difference</h4>
-              <p className="text-gray-700">We already support CPR cases through standard appointments. This tool doesn't create new outcomes—it <strong>identifies the right students faster</strong> and <strong>prevents wasted time on unviable cases</strong>.</p>
-            </div>
-
-            <div className="bg-white p-6 rounded-lg shadow-sm border-l-4 border-orange-500">
-              <h4 className="font-semibold text-lg text-gray-800 mb-2">Strategic Value</h4>
-              <p className="text-gray-700">By filtering 41 responses down to 6 high-priority cases, we directed our most valuable resource (senior advisor time) exactly where it could protect institutional revenue.</p>
-            </div>
-          </div>
-        </div>
-      )
-    },
-    {
-      title: "Strategic Insights: What We Learned",
-      subtitle: "Actionable Intelligence to Guide Future Strategy",
-      content: (
-        <div className="space-y-5">
-          <p className="text-xl text-gray-700 mb-4">The pilot generated critical, actionable intelligence that will prevent the misallocation of hundreds of future advisor hours.</p>
-
-          <div className="bg-blue-50 p-6 rounded-lg border-l-4 border-blue-600">
-            <h3 className="text-lg font-bold text-blue-900 mb-2">Insight 1: CPR is a Micro-Segment Solution</h3>
-            <p className="text-gray-700">The pilot proved CPR is only viable for a small fraction of the BFS cohort (6 of 41 respondents). This critical intelligence prevents us from investing heavily in an unscalable, low-impact strategy.</p>
-          </div>
-
-          <div className="bg-green-50 p-6 rounded-lg border-l-4 border-green-600">
-            <h3 className="text-lg font-bold text-green-900 mb-2">Insight 2: The Triage Model Works</h3>
-            <p className="text-gray-700">The model's 100% accuracy with high-scoring cases validates it as a reliable tool for identifying and prioritizing at-risk students.</p>
-          </div>
-
-          <div className="bg-purple-50 p-6 rounded-lg border-l-4 border-purple-600">
-            <h3 className="text-lg font-bold text-purple-900 mb-2">Insight 3: Proactive, Digital-First Approach Works</h3>
-            <p className="text-gray-700">A well-designed digital form is a far more efficient "first touch" than waiting for appointments. 68% response rate demonstrates student engagement with this approach.</p>
-          </div>
-
-          <div className="bg-orange-50 p-6 rounded-lg border-l-4 border-orange-600">
-            <h3 className="text-lg font-bold text-orange-900 mb-2">Insight 4: Form Design is Critical</h3>
-            <p className="text-gray-700">The 2 students who answered incorrectly highlight the need for clearer question wording and validation logic. Future improvements could include contradiction flagging and plain-language explanations.</p>
-          </div>
-
-          <div className="bg-indigo-50 p-6 rounded-lg border-l-4 border-indigo-600">
-            <h3 className="text-lg font-bold text-indigo-900 mb-2">Insight 5: Resource Optimization, Not Service Expansion</h3>
-            <p className="text-gray-700">This tool doesn't replace existing CPR support—it makes it dramatically more efficient. Instead of spending 28.5 hours in reactive appointments to find these 6 cases, we identified them proactively.</p>
-          </div>
-        </div>
-      )
-    },
-    {
-      title: "Primary Recommendation",
-      subtitle: "Formalize and Scale the Proactive Triage System",
-      content: (
-        <div className="space-y-6">
-          <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-8 rounded-lg shadow-lg mb-6">
-            <h3 className="text-3xl font-bold mb-4">Adopt as Standard Operating Procedure</h3>
-            <p className="text-xl">Based on the pilot's exceptional accuracy, measurable ROI in saved time, and critical strategic insights, this proactive triage model should be adopted as our <strong>standard operating procedure</strong> for managing at-risk student cohorts.</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <div className="bg-green-50 p-6 rounded-lg text-center border-2 border-green-200">
-              <div className="text-4xl mb-2">⚡</div>
-              <h4 className="font-semibold text-lg text-gray-800 mb-2">Maximize Efficiency</h4>
-              <p className="text-gray-600">Direct advisor time to high-value cases</p>
-            </div>
-            <div className="bg-blue-50 p-6 rounded-lg text-center border-2 border-blue-200">
-              <div className="text-4xl mb-2">📊</div>
-              <h4 className="font-semibold text-lg text-gray-800 mb-2">Data-Driven</h4>
-              <p className="text-gray-600">Evidence-based intervention decisions</p>
-            </div>
-            <div className="bg-purple-50 p-6 rounded-lg text-center border-2 border-purple-200">
-              <div className="text-4xl mb-2">🎯</div>
-              <h4 className="font-semibold text-lg text-gray-800 mb-2">Improve Retention</h4>
-              <p className="text-gray-600">Clear pathway to support at-risk students</p>
-            </div>
-          </div>
-
-          <div className="bg-yellow-50 border-l-4 border-yellow-500 p-6">
-            <h3 className="text-xl font-semibold text-yellow-900 mb-3">Resource Requirements for Scaling:</h3>
-            <p className="text-gray-700 mb-4">The pilot successfully proved the concept using MS Forms, Power Automate, and Excel/VBA as workaround tools. To formalize this as standard practice and scale across multiple cohorts, we need:</p>
-            <ul className="space-y-2 text-gray-700 ml-4">
-              <li>• <strong>Development laptop</strong> with appropriate software and permissions</li>
-              <li>• Enhanced integration with student information systems for automated data flow</li>
-              <li>• Improved validation logic to catch data quality issues automatically</li>
-            </ul>
-            <p className="text-gray-700 mt-4">This investment will transform a one-off pilot into enterprise-grade infrastructure that can serve multiple cohorts annually.</p>
-          </div>
-        </div>
-      )
-    },
-    {
-      title: "Q&A / Next Steps",
-      subtitle: "Questions & Discussion",
-      content: (
-        <div className="text-center space-y-8">
-          <div className="text-6xl mb-8">💬</div>
-          <h2 className="text-4xl font-bold text-gray-800">Questions & Discussion</h2>
-          <p className="text-2xl text-gray-600 max-w-3xl mx-auto">Open the floor for questions and discuss next steps for formalizing the process and securing necessary resources.</p>
-          
-          <div className="mt-12 bg-gradient-to-r from-blue-50 to-indigo-50 p-8 rounded-lg max-w-2xl mx-auto">
-            <h3 className="text-2xl font-semibold text-gray-800 mb-4">Summary of Results</h3>
-            <div className="grid grid-cols-2 gap-4 text-left">
-              <div className="space-y-2">
-                <p className="text-gray-600">Response Rate:</p>
-                <p className="text-gray-600">Hours Saved:</p>
-                <p className="text-gray-600">CPR Cases Found:</p>
-                <p className="text-gray-600">Revenue at Risk:</p>
-              </div>
-              <div className="space-y-2 font-semibold">
-                <p className="text-gray-800">68% (41/60)</p>
-                <p className="text-gray-800">28.5 hours</p>
-                <p className="text-gray-800">6 students</p>
-                <p className="text-gray-800">£47,999.99</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      )
-    }
-  ];
-
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % slides.length);
-  };
-
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
-  };
-
-  const goToSlide = (index) => {
-    setCurrentSlide(index);
-  };
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-4">
-      <div className="max-w-6xl mx-auto">
-        {/* Slide Container */}
-        <div className="bg-white rounded-xl shadow-2xl overflow-hidden">
-          {/* Slide Header */}
-          <div className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white p-8">
-            <h1 className="text-3xl font-bold mb-2">{slides[currentSlide].title}</h1>
-            <p className="text-blue-100 text-lg">{slides[currentSlide].subtitle}</p>
-          </div>
-
-          {/* Slide Content */}
-          <div className="p-12 min-h-[600px]">
-            {slides[currentSlide].content}
-          </div>
-
-          {/* Slide Navigation */}
-          <div className="bg-gray-50 px-8 py-6 flex items-center justify-between border-t border-gray-200">
-            <button
-              onClick={prevSlide}
-              className="flex items-center space-x-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
-              disabled={currentSlide === 0}
-            >
-              <ChevronLeft size={20} />
-              <span>Previous</span>
-            </button>
-
-            {/* Slide Indicators */}
-            <div className="flex space-x-2">
-              {slides.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => goToSlide(index)}
-                  className={`w-3 h-3 rounded-full transition-all ${
-                    index === currentSlide
-                      ? 'bg-blue-600 w-8'
-                      : 'bg-gray-300 hover:bg-gray-400'
-                  }`}
-                  aria-label={`Go to slide ${index + 1}`}
-                />
-              ))}
-            </div>
-
-            <button
-              onClick={nextSlide}
-              className="flex items-center space-x-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
-              disabled={currentSlide === slides.length - 1}
-            >
-              <span>Next</span>
-              <ChevronRight size={20} />
-            </button>
-          </div>
-
-          {/* Slide Counter */}
-          <div className="bg-gray-100 px-8 py-3 text-center text-gray-600 text-sm border-t border-gray-200">
-            Slide {currentSlide + 1} of {slides.length}
-          </div>
-        </div>
-      </div>
     </div>
-  );
-};
 
-export default TriagePresentation;
+    <script>
+        let currentSlide = 0;
+
+        const slides = [
+            {
+                title: "Proactive Triage Pilot",
+                subtitle: "Converting Student Debt into Retention",
+                content: `
+                    <div class="text-center space-y-6">
+                        <h2 class="text-4xl font-bold text-gray-800">Proactive Triage Pilot: Converting Student Debt into Retention</h2>
+                        <p class="text-2xl text-gray-600">Analyzing the BFS Cohort to Create a Pathway for Student Success</p>
+                        <div class="mt-12 text-lg text-gray-700 space-y-2">
+                            <p><strong>Presented by:</strong> [Your Name]</p>
+                            <p><strong>Role:</strong> Senior Student Advisor</p>
+                            <p><strong>Date:</strong> October 17, 2025</p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                title: "The Challenge: The BFS Cohort",
+                subtitle: "A Growing Institutional Challenge",
+                content: `
+                    <div class="space-y-6">
+                        <p class="text-xl text-gray-700">A significant cohort of students with outstanding fees (BFS) are unable to re-enroll each year. Our traditional support model has been <strong>reactive</strong>, relying on students booking time-intensive, one-on-one appointments.</p>
+                        
+                        <div class="alert-box alert-red">
+                            <h3 class="text-xl font-semibold mb-3" style="color: #991b1b;">This creates two key problems:</h3>
+                            <ul class="space-y-2 text-gray-700">
+                                <li>• It creates a <strong>bottleneck</strong> for advisor time</li>
+                                <li>• It risks losing at-risk students who disengage before seeking help</li>
+                            </ul>
+                        </div>
+
+                        <div class="alert-box alert-blue">
+                            <p class="text-xl font-semibold" style="color: #1e40af;"><strong>Our Goal:</strong> To develop a proactive, scalable system to identify and support these students more efficiently.</p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                title: "The Solution: An Automated Triage Tool",
+                subtitle: "Shifting from Reactive to Proactive",
+                content: `
+                    <div class="space-y-6">
+                        <p class="text-xl text-gray-700">To solve this, I developed an automated triage tool leveraging modern technologies including AI and workflow automation.</p>
+                        
+                        <div class="gradient-box gradient-blue-indigo">
+                            <h3 class="text-xl font-semibold mb-4" style="color: #3730a3;">Technology Stack:</h3>
+                            <ul class="space-y-3 text-gray-700">
+                                <li>• <strong>MS Forms</strong> - Digital triage form for student data collection</li>
+                                <li>• <strong>Power Automate</strong> - Automated data flow from forms to Excel</li>
+                                <li>• <strong>Excel + VBA</strong> - Dynamic scoring engine with AI-assisted code generation</li>
+                                <li>• <strong>AI Co-Development</strong> - Used generative AI to develop flexible scoring logic</li>
+                            </ul>
+                        </div>
+
+                        <div class="alert-box alert-green">
+                            <p class="text-gray-600"><strong>Privacy Note:</strong> No student data was processed by generative AI. AI was only used to generate the scoring code template, ensuring full compliance with data protection requirements.</p>
+                        </div>
+
+                        <p class="text-lg text-gray-700 mt-4">The tool automatically scores and prioritizes students based on their potential for a successful Compelling Personal Reasons (CPR) claim.</p>
+                    </div>
+                `
+            },
+            {
+                title: "Mapping the Process: How It Works",
+                subtitle: "From Data Input to Actionable Insights",
+                content: `
+                    <div class="space-y-6">
+                        <p class="text-lg text-gray-700 mb-6">The process is designed to be seamless and automated, moving from initial student engagement to a clear, actionable list for advisors.</p>
+                        
+                        <div class="space-y-4">
+                            <div class="step-container">
+                                <div class="number-circle">1</div>
+                                <div class="step-content">
+                                    <h4 class="step-title">Engage</h4>
+                                    <p class="text-gray-600">At-risk students are sent a link to the MS Forms triage questionnaire</p>
+                                </div>
+                            </div>
+
+                            <div class="step-container">
+                                <div class="number-circle">2</div>
+                                <div class="step-content">
+                                    <h4 class="step-title">Automate</h4>
+                                    <p class="text-gray-600">Power Automate instantly transfers form responses to the Excel Data sheet</p>
+                                </div>
+                            </div>
+
+                            <div class="step-container">
+                                <div class="number-circle">3</div>
+                                <div class="step-content">
+                                    <h4 class="step-title">Analyze</h4>
+                                    <p class="text-gray-600">Advisor clicks the 'Refresh' button, triggering the VBA scoring macro</p>
+                                </div>
+                            </div>
+
+                            <div class="step-container">
+                                <div class="number-circle">4</div>
+                                <div class="step-content">
+                                    <h4 class="step-title">Prioritize</h4>
+                                    <p class="text-gray-600">The tool scores, ranks, and sorts all students on the Triage sheet</p>
+                                </div>
+                            </div>
+
+                            <div class="step-container">
+                                <div class="number-circle green">5</div>
+                                <div class="step-content">
+                                    <h4 class="step-title">Action</h4>
+                                    <p class="text-gray-600">The tool generates clean, sorted Callback Lists based on student responses</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                title: "The Triage Funnel: Pilot Performance",
+                subtitle: "Efficiently Filtering to Find the Target Group",
+                content: `
+                    <div class="space-y-6">
+                        <p class="text-xl text-gray-700 mb-6">The pilot successfully engaged a large cohort and efficiently filtered it down to a manageable group of high-potential students.</p>
+
+                        <div class="space-y-6">
+                            <div class="stat-box gradient-purple">
+                                <div class="stat-number" style="color: #7c3aed;">~60</div>
+                                <p class="text-lg text-gray-700"><strong>Students Contacted:</strong> Initial outreach to the BFS cohort</p>
+                            </div>
+
+                            <div class="stat-box gradient-blue">
+                                <div class="stat-number" style="color: #1d4ed8;">41</div>
+                                <p class="text-lg text-gray-700"><strong>Forms Submitted:</strong> 68% response rate to the proactive digital form</p>
+                            </div>
+
+                            <div class="stat-box gradient-green">
+                                <div class="stat-number" style="color: #15803d;">28.5</div>
+                                <p class="text-lg text-gray-700"><strong>Hours Saved:</strong> Pre-emptive engagement prevented this amount of reactive appointment time</p>
+                            </div>
+
+                            <div class="stat-box gradient-orange">
+                                <div class="stat-number" style="color: #c2410c;">6</div>
+                                <p class="text-lg text-gray-700"><strong>Viable CPR Cases:</strong> Successfully identified for targeted advisor intervention</p>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                title: "Triage Model Accuracy: Validating the System",
+                subtitle: "A Reliable and Effective Filtering Tool",
+                content: `
+                    <div class="space-y-6">
+                        <p class="text-xl text-gray-700">The tool's scoring logic successfully identified students with viable CPR cases, validating the model's effectiveness.</p>
+
+                        <div class="alert-box alert-green">
+                            <h3 class="text-xl font-semibold mb-3" style="color: #15803d;">High-Priority Identification:</h3>
+                            <p class="text-lg text-gray-700"><strong>4 out of 4 students (100%)</strong> who scored highly on the triage system and were contacted had viable CPR cases. The system correctly prioritized every high-scoring respondent.</p>
+                        </div>
+
+                        <div class="alert-box alert-blue">
+                            <h3 class="text-xl font-semibold mb-3" style="color: #1e3a8a;">System Resilience:</h3>
+                            <p class="text-lg text-gray-700"><strong>2 additional students</strong> with viable CPR cases were identified despite scoring lower. Analysis showed these students had answered key questions incorrectly or incompletely, causing the lower scores.</p>
+                        </div>
+
+                        <div class="alert-box alert-yellow">
+                            <h3 class="text-xl font-semibold mb-3" style="color: #854d0e;">Key Finding:</h3>
+                            <p class="text-lg text-gray-700">The triage logic is sound—it correctly processes the data it receives. The 2 outliers represent a <strong>data quality issue</strong>, not a system flaw.</p>
+                        </div>
+
+                        <div class="alert-box alert-indigo">
+                            <h3 class="text-xl font-semibold mb-3" style="color: #3730a3;">Conclusion:</h3>
+                            <p class="text-lg text-gray-700">The model successfully separates viable cases from non-viable ones when data is accurate, proving the system works as designed. Future iterations can add validation logic to capture edge cases.</p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                title: "Pilot Outcomes: Protecting Institutional Revenue",
+                subtitle: "Efficient Resource Allocation Leads to Revenue Retention",
+                content: `
+                    <div class="space-y-6">
+                        <p class="text-xl text-gray-700 mb-6">The pilot successfully identified high-value cases and directed advisor resources where they would have maximum impact.</p>
+
+                        <div class="gradient-box gradient-emerald shadow-md mb-6">
+                            <div class="revenue-box">
+                                <div class="revenue-number">£47,999.99</div>
+                                <p class="text-2xl font-semibold text-gray-800">Potential Revenue at Risk</p>
+                                <p class="text-lg text-gray-600 mt-2">Outstanding fees for 6 identified CPR cases that could be retained if claims succeed</p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div class="feature-box" style="border-color: #3b82f6;">
+                                <h4>Viable CPR Cases Identified</h4>
+                                <p class="text-gray-700">The triage tool identified <strong>6 students</strong> with strong CPR cases, allowing us to prioritize our intervention effectively.</p>
+                            </div>
+
+                            <div class="feature-box" style="border-color: #a855f7;">
+                                <h4>The Key Difference</h4>
+                                <p class="text-gray-700">We already support CPR cases through standard appointments. This tool doesn't create new outcomes—it <strong>identifies the right students faster</strong> and <strong>prevents wasted time on unviable cases</strong>.</p>
+                            </div>
+
+                            <div class="feature-box" style="border-color: #f97316;">
+                                <h4>Strategic Value</h4>
+                                <p class="text-gray-700">By filtering 41 responses down to 6 high-priority cases, we directed our most valuable resource (senior advisor time) exactly where it could protect institutional revenue.</p>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                title: "Strategic Insights: What We Learned",
+                subtitle: "Actionable Intelligence to Guide Future Strategy",
+                content: `
+                    <div class="space-y-5">
+                        <p class="text-xl text-gray-700 mb-4">The pilot generated critical, actionable intelligence that will prevent the misallocation of hundreds of future advisor hours.</p>
+
+                        <div class="alert-box alert-blue">
+                            <h3 class="text-lg font-bold mb-2" style="color: #1e3a8a;">Insight 1: CPR is a Micro-Segment Solution</h3>
+                            <p class="text-gray-700">The pilot proved CPR is only viable for a small fraction of the BFS cohort (6 of 41 respondents). This critical intelligence prevents us from investing heavily in an unscalable, low-impact strategy.</p>
+                        </div>
+
+                        <div class="alert-box alert-green">
+                            <h3 class="text-lg font-bold mb-2" style="color: #14532d;">Insight 2: The Triage Model Works</h3>
+                            <p class="text-gray-700">The model's 100% accuracy with high-scoring cases validates it as a reliable tool for identifying and prioritizing at-risk students.</p>
+                        </div>
+
+                        <div class="alert-box alert-purple">
+                            <h3 class="text-lg font-bold mb-2" style="color: #581c87;">Insight 3: Proactive, Digital-First Approach Works</h3>
+                            <p class="text-gray-700">A well-designed digital form is a far more efficient "first touch" than waiting for appointments. 68% response rate demonstrates student engagement with this approach.</p>
+                        </div>
+
+                        <div class="alert-box alert-orange">
+                            <h3 class="text-lg font-bold mb-2" style="color: #7c2d12;">Insight 4: Form Design is Critical</h3>
+                            <p class="text-gray-700">The 2 students who answered incorrectly highlight the need for clearer question wording and validation logic. Future improvements could include contradiction flagging and plain-language explanations.</p>
+                        </div>
+
+                        <div class="alert-box alert-indigo">
+                            <h3 class="text-lg font-bold mb-2" style="color: #312e81;">Insight 5: Resource Optimization, Not Service Expansion</h3>
+                            <p class="text-gray-700">This tool doesn't replace existing CPR support—it makes it dramatically more efficient. Instead of spending 28.5 hours in reactive appointments to find these 6 cases, we identified them proactively.</p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                title: "Primary Recommendation",
+                subtitle: "Formalize and Scale the Proactive Triage System",
+                content: `
+                    <div class="space-y-6">
+                        <div class="gradient-box gradient-primary shadow-lg mb-6">
+                            <h3 class="text-3xl font-bold mb-4">Adopt as Standard Operating Procedure</h3>
+                            <p class="text-xl">Based on the pilot's exceptional accuracy, measurable ROI in saved time, and critical strategic insights, this proactive triage model should be adopted as our <strong>standard operating procedure</strong> for managing at-risk student cohorts.</p>
+                        </div>
+
+                        <div class="grid grid-3 mb-8">
+                            <div class="icon-box" style="background: #f0fdf4; border-color: #bbf7d0;">
+                                <div class="icon">⚡</div>
+                                <h4 class="font-semibold text-lg text-gray-800 mb-2">Maximize Efficiency</h4>
+                                <p class="text-gray-600">Direct advisor time to high-value cases</p>
+                            </div>
+                            <div class="icon-box" style="background: #eff6ff; border-color: #bfdbfe;">
+                                <div class="icon">📊</div>
+                                <h4 class="font-semibold text-lg text-gray-800 mb-2">Data-Driven</h4>
+                                <p class="text-gray-600">Evidence-based intervention decisions</p>
+                            </div>
+                            <div class="icon-box" style="background: #faf5ff; border-color: #e9d5ff;">
+                                <div class="icon">🎯</div>
+                                <h4 class="font-semibold text-lg text-gray-800 mb-2">Improve Retention</h4>
+                                <p class="text-gray-600">Clear pathway to support at-risk students</p>
+                            </div>
+                        </div>
+
+                        <div class="alert-box alert-yellow">
+                            <h3 class="text-xl font-semibold mb-3" style="color: #713f12;">Resource Requirements for Scaling:</h3>
+                            <p class="text-gray-700 mb-4">The pilot successfully proved the concept using MS Forms, Power Automate, and Excel/VBA as workaround tools. To formalize this as standard practice and scale across multiple cohorts, we need:</p>
+                            <ul class="space-y-2 text-gray-700" style="margin-left: 16px;">
+                                <li>• <strong>Development laptop</strong> with appropriate software and permissions</li>
+                                <li>• Enhanced integration with student information systems for automated data flow</li>
+                                <li>• Improved validation logic to catch data quality issues automatically</li>
+                            </ul>
+                            <p class="text-gray-700 mt-4">This investment will transform a one-off pilot into enterprise-grade infrastructure that can serve multiple cohorts annually.</p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                title: "Q&A / Next Steps",
+                subtitle: "Questions & Discussion",
+                content: `
+                    <div class="text-center space-y-8">
+                        <div style="font-size: 4rem; margin-bottom: 32px;">💬</div>
+                        <h2 class="text-4xl font-bold text-gray-800">Questions & Discussion</h2>
+                        <p class="text-2xl text-gray-600 max-w-3xl">Open the floor for questions and discuss next steps for formalizing the process and securing necessary resources.</p>
+                        
+                        <div class="gradient-box gradient-blue-indigo max-w-2xl mt-8">
+                            <h3 class="text-2xl font-semibold text-gray-800 mb-4">Summary of Results</h3>
+                            <div class="summary-grid">
+                                <div class="space-y-2">
+                                    <p class="text-gray-600">Response Rate:</p>
+                                    <p class="text-gray-600">Hours Saved:</p>
+                                    <p class="text-gray-600">CPR Cases Found:</p>
+                                    <p class="text-gray-600">Revenue at Risk:</p>
+                                </div>
+                                <div class="space-y-2 font-semibold">
+                                    <p class="text-gray-800">68% (41/60)</p>
+                                    <p class="text-gray-800">28.5 hours</p>
+                                    <p class="text-gray-800">6 students</p>
+                                    <p class="text-gray-800">£47,999.99</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            }
+        ];
+
+        function renderSlide() {
+            const slide = slides[currentSlide];
+            document.getElementById('slide-title').textContent = slide.title;
+            document.getElementById('slide-subtitle').textContent = slide.subtitle;
+            document.getElementById('slide-content').innerHTML = slide.content;
+            document.getElementById('slide-counter').textContent = `Slide ${currentSlide + 1} of ${slides.length}`;
+            
+            document.getElementById('prev-btn').disabled = currentSlide === 0;
+            document.getElementById('next-btn').disabled = currentSlide === slides.length - 1;
+            
+            renderIndicators();
+        }
+
+        function renderIndicators() {
+            const indicatorsContainer = document.getElementById('indicators');
+            indicatorsContainer.innerHTML = '';
+            
+            slides.forEach((_, index) => {
+                const indicator = document.createElement('button');
+                indicator.className = `indicator ${index === currentSlide ? 'active' : ''}`;
+                indicator.onclick = () => goToSlide(index);
+                indicator.setAttribute('aria-label', `Go to slide ${index + 1}`);
+                indicatorsContainer.appendChild(indicator);
+            });
+        }
+
+        function nextSlide() {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                renderSlide();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                renderSlide();
+            }
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            renderSlide();
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+
+        renderSlide();
+    </script>
+</body>
+</html>
